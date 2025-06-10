@@ -1,6 +1,6 @@
 <?php
 
-abstract class Algolia_Algoliasearch_Helper_Entity_Helper
+abstract class Algolia_Algoliasearch_Helper_Entity_Helper extends Mage_Core_Helper_Abstract
 {
     /** @var Algolia_Algoliasearch_Helper_Config */
     protected $config;

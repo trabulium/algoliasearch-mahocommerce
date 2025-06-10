@@ -1,4 +1,4 @@
-Algolia Search for Magento 1.6+
+Algolia Search for Magento 1.6+ / Maho Commerce
 ==================
 
 ![Latest version](https://img.shields.io/badge/latest-1.19.0-green.svg)
@@ -10,6 +10,13 @@ Algolia Search for Magento 1.6+
 ![Magento 1.8.1](https://img.shields.io/badge/magento-1.8.1-blue.svg)
 ![Magento 1.9.2](https://img.shields.io/badge/magento-1.9.2-blue.svg)
 ![Magento 1.9.3](https://img.shields.io/badge/magento-1.9.3-blue.svg)
+![Maho Commerce](https://img.shields.io/badge/maho-commerce-blue.svg)
+
+-------
+
+## Maho Commerce Compatibility
+
+This fork includes modifications for **Maho Commerce** compatibility. See [MAHO_COMMERCE_COMPATIBILITY.md](MAHO_COMMERCE_COMPATIBILITY.md) for installation instructions and changes.
 
 -------
 
