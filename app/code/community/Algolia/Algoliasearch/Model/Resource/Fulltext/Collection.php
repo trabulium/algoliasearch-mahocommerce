@@ -10,7 +10,16 @@ class Algolia_Algoliasearch_Model_Resource_Fulltext_Collection extends Mage_Cata
     public function getFoundIds()
     {
         if (!$this->_helper()->isX3Version()) {
-            return $this;
+            // For older versions, search is handled in addSearchFilter
+            // We need to check if we already have Algolia data
+            $query = $this->_getQuery();
+            if (!empty($query)) {
+                $data = $this->getAlgoliaData($query);
+                if ($data !== false) {
+                    return array_keys($data);
+                }
+            }
+            return parent::getFoundIds();
         }
         
         $query = $this->_getQuery();
@@ -71,6 +80,20 @@ class Algolia_Algoliasearch_Model_Resource_Fulltext_Collection extends Mage_Cata
     }
 
     /**
+     * Get query text
+     * 
+     * @return string|null
+     */
+    protected function _getQuery()
+    {
+        $query = Mage::helper('catalogsearch')->getQuery();
+        if ($query) {
+            return $query->getQueryText();
+        }
+        return null;
+    }
+
+    /**
      * @param string $query
      *
      * @return Algolia_Algoliasearch_Model_Resource_Fulltext_Collection
@@ -87,10 +110,15 @@ class Algolia_Algoliasearch_Model_Resource_Fulltext_Collection extends Mage_Cata
         }
         $sortedIds = array_reverse(array_keys($data));
 
-        $this->getSelect()->columns(array(
-            'relevance' => new Zend_Db_Expr("FIND_IN_SET(e.entity_id, '" . implode(',', $sortedIds) . "')"),
-        ));
-        $this->getSelect()->where('e.entity_id IN (?)', $sortedIds);
+        if (!empty($sortedIds)) {
+            $this->getSelect()->columns(array(
+                'relevance' => new Zend_Db_Expr("FIND_IN_SET(e.entity_id, '" . implode(',', $sortedIds) . "')"),
+            ));
+            $this->getSelect()->where('e.entity_id IN (?)', $sortedIds);
+        } else {
+            // No results, return empty collection
+            $this->getSelect()->where('1=0');
+        }
 
         return $this;
     }

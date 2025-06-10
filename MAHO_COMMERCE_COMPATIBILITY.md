@@ -8,6 +8,13 @@ This fork includes modifications to make the Algolia Search extension compatible
 - Modified `app/code/community/Algolia/Algoliasearch/Helper/Entity/Helper.php` to extend from `Mage_Core_Helper_Abstract`
 - This is required because Maho Commerce enforces strict type checking for helper classes
 
+### 2. Search Collection Compatibility
+- Fixed `app/code/community/Algolia/Algoliasearch/Model/Resource/Fulltext/Collection.php` to properly handle search results
+- Added `_getQuery()` method to retrieve search query text
+- Fixed `getFoundIds()` to return array of IDs instead of collection object for non-X3 versions
+- Improved `addSearchFilter()` to handle empty search results properly
+- These changes fix "Object could not be converted to string" errors when searching
+
 ## Installation Instructions
 
 ### 1. Install via Composer
@@ -74,3 +81,6 @@ php maho cache:flush
 
 ### Error: "Undefined constant BP"
 - Run the composer dump-autoload command from step 2
+
+### Error: "Object of class Algolia_Algoliasearch_Model_Resource_Fulltext_Collection could not be converted to string"
+- This fork includes fixes for this issue. Ensure you're using the latest version of the `maho-compatibility` branch
